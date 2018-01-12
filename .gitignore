@@ -1,0 +1,6 @@
+node_modules
+package-lock.json
+dist/icon_niconico.png
+dist/app.js
+dist/background.js
+
