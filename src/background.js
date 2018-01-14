@@ -3,7 +3,7 @@ import "babel-polyfill";
 const SYNC_INTERVAL = 10;
 const URL = "http://live.nicovideo.jp/api/relive/notifybox.content";
 
-function sync() {
+window.sync = function sync() {
   return fetch(URL, { credentials: "include" }).then(async response => {
     const json = await response.json();
     const data = json.data;
@@ -35,10 +35,12 @@ function openWindow(notifyboxes) {
       "height": height
     },
     (w) => {
+      /*
       chrome.tabs.query({ active: true, windowId: w.id }, tabs => {
         const tab = tabs.shift();
         setTimeout(() => chrome.tabs.sendMessage(tab.id, notifyboxes), 3000);
       });
+      */
     }
   );
 }
@@ -52,6 +54,16 @@ chrome.browserAction.onClicked.addListener(() => {
 chrome.alarms.onAlarm.addListener(() => {
   sync().then(notifyboxes => {
     updateBadgeFromLength(notifyboxes.length);
+    /*
+    for (var notify in notifyboxes) {
+      chrome.notifications.create({
+        type: "basic",
+        iconUrl: "icon_niconico.png",
+        title: "Live started",
+        message: `${notify.title}`
+      });
+    }
+    */
   });
 });
 chrome.alarms.create("niconama-notify", { periodInMinutes: SYNC_INTERVAL });

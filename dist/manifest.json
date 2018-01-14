@@ -8,5 +8,10 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": ["tabs", "alarms", "http://live.nicovideo.jp/*"]
+  "permissions": [
+    "tabs",
+    "alarms",
+    "notifications",
+    "http://live.nicovideo.jp/*"
+  ]
 }
