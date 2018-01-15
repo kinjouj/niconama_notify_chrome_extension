@@ -1,10 +1,7 @@
 module.exports = {
-  entry: {
-    app: "./src/frontend/app.js",
-    background: "./src/background.js"
-  },
+  entry: ["./src/background.js"],
   output: {
-    filename: "dist/[name].js"
+    filename: "dist/background.js"
   },
   module: {
     rules: [

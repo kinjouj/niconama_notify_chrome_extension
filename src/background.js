@@ -2,8 +2,9 @@ import "babel-polyfill";
 
 const SYNC_INTERVAL = 10;
 const URL = "http://live.nicovideo.jp/api/relive/notifybox.content";
+const noop = () => {};
 
-window.sync = function sync() {
+function sync() {
   return fetch(URL, { credentials: "include" }).then(async response => {
     const json = await response.json();
     const data = json.data;
@@ -18,31 +19,10 @@ function updateBadgeFromLength(len) {
 }
 
 function openWindow(notifyboxes) {
-  if (notifyboxes.length <= 0) {
+  if (notifyboxes.length <= 0)
     return;
-  }
 
-  let width = 700, height = 700
-  let left = window.screen.availLeft + window.screen.availWidth / 2 - width / 2;
-  let top = window.screen.availTop + window.screen.availHeight / 2 - height / 2;
-
-  chrome.windows.create(
-    {
-      "url": "index.html",
-      "left": Math.floor(left),
-      "top": Math.floor(top),
-      "width": width,
-      "height": height
-    },
-    (w) => {
-      /*
-      chrome.tabs.query({ active: true, windowId: w.id }, tabs => {
-        const tab = tabs.shift();
-        setTimeout(() => chrome.tabs.sendMessage(tab.id, notifyboxes), 3000);
-      });
-      */
-    }
-  );
+  chrome.tabs.create({ url: "http://www.nicovideo.jp/my/live#ch" });
 }
 
 chrome.browserAction.onClicked.addListener(() => {
